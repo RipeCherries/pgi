@@ -1,0 +1,17 @@
+{
+  "name": "pgi",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lab1": "node lab1/main.js",
+    "lab2": "node lab2/main.js",
+    "lab3": "node lab3/main.js"
+  },
+  "author": "Egoshin Alexey",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0"
+  }
+}
