@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { promisify } from "util";
+import {promisify} from "util";
 import fs from "fs";
 
 const readFileAsync = promisify(fs.readFile);
@@ -30,7 +30,7 @@ async function getBMPFileInformation(fileName) {
             biYPelsPerMeter: bmpData.readUInt32LE(42)
         }
     } catch (error) {
-
+        throw error;
     }
 }
 
@@ -38,29 +38,34 @@ async function convertToGrayScale(fileName) {
     try {
         const bmpData = await readFileAsync(fileName);
 
-        const outputBuffer = Buffer.alloc(bmpData.length);
-        bmpData.copy(outputBuffer, 0, 0, 54);
+        const paletteOffset = 54;
+        const paletteSize = 256;
+        const palette = bmpData.subarray(paletteOffset, paletteOffset + paletteSize * 4);
 
-        for (let i = 54; i < bmpData.readUInt32LE(18) * bmpData.readUInt32LE(22) * 3; i += 3) {
-            const rgbtBlue = bmpData.readUInt8(i);
-            const rgbtGreen = bmpData.readUInt8(i + 1);
-            const rgbtRed = bmpData.readUInt8(i + 2);
 
-            const grayScale = Math.floor((rgbtRed + rgbtGreen + rgbtBlue) / 3);
+        for (let i = 0; i < palette.length; i += 4) {
+            const blue = palette.readUInt8(i);
+            const green = palette.readUInt8(i + 1);
+            const red = palette.readUInt8(i + 2);
 
-            outputBuffer.writeUInt8(grayScale, i);
-            outputBuffer.writeUInt8(grayScale, i + 1);
-            outputBuffer.writeUInt8(grayScale, i + 2);
+            const grayScale = Math.ceil((red + green + blue) / 3);
+
+            palette.writeUInt8(grayScale, i);
+            palette.writeUInt8(grayScale, i + 1);
+            palette.writeUInt8(grayScale, i + 2);
         }
 
-        await writeFileAsync('result.bmp', outputBuffer);
+        palette.copy(bmpData, paletteOffset);
 
+        await writeFileAsync("grayscale.bmp", bmpData);
+
+        return "Чёрно-белое изображение успешно сохранено!"
     } catch (error) {
-        console.log(error);
+        throw error;
     }
 }
 
-getBMPFileInformation("example1.bmp").then((bmpInfo) => {
+getBMPFileInformation("bmp-examples/example8bit.bmp").then((bmpInfo) => {
     console.log(chalk.green.underline("Сигнатура формата:") + " " + bmpInfo.bfType.toString(16));
     console.log(chalk.green.underline("Размер файла:") + " " + bmpInfo.bfSize + " байт");
     console.log(chalk.green.underline("Ширина:") + " " + bmpInfo.biWidth + " пикселей");
@@ -69,6 +74,12 @@ getBMPFileInformation("example1.bmp").then((bmpInfo) => {
     console.log(chalk.green.underline("Способ хранения пикселей:") + " " + decodingCompressionField[bmpInfo.biCompression]);
     console.log(chalk.green.underline("Разрешение по горизонтали:") + " " + bmpInfo.biXPelsPerMeter + " пикселей / метр");
     console.log(chalk.green.underline("Разрешение по вертикали:") + " " + bmpInfo.biYPelsPerMeter + " пикселей / метр");
-})
+}).catch((error) => {
+    console.error(chalk.red.bold("Ошибка при получении информации о BMP файле:\n"), error);
+});
 
-convertToGrayScale("example1.bmp");
+convertToGrayScale("bmp-examples/example8bit.bmp").then((result) => {
+    console.log(chalk.white.bold(result));
+}).catch((error) => {
+    console.error(chalk.red.bold("Ошибка при конвертации изображения в чёрно-белое:\n"), error);
+});
