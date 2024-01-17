@@ -7,11 +7,20 @@
   "scripts": {
     "lab1": "node lab1/main.js",
     "lab2": "node lab2/main.js",
-    "lab3": "node lab3/main.js"
+    "lab3": "node lab3/main.js",
+    "lab4": "node lab4/main.js",
+    "lab5": "node lab5/main.js"
   },
   "author": "Egoshin Alexey",
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "prettier": "^3.2.3"
   }
 }

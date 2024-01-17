@@ -1,0 +1,17 @@
+# Ignoring *.md files
+**/*.md
+
+# Ignoring *.json files
+**/*.json
+
+# Ignoring *.bmp files
+**/*.bmp
+
+# Ignoring *.html files
+**/*.html
+
+# Ignoring *.css files
+**/*.css
+
+# Ignoting .* files
+**/.*
