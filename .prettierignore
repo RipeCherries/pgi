@@ -7,6 +7,9 @@
 # Ignoring *.bmp files
 **/*.bmp
 
+# Ignoring *.pcx files
+**/*.pcx
+
 # Ignoring *.html files
 **/*.html
 
