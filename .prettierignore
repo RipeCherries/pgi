@@ -10,6 +10,9 @@
 # Ignoring *.pcx files
 **/*.pcx
 
+# Ignoring *.txt files
+**/*.txt
+
 # Ignoring *.html files
 **/*.html
 
