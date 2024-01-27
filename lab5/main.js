@@ -56,14 +56,14 @@ async function transformImage(fileName, scale) {
 
   const finalBuffer = Buffer.concat([newHeader, scaledPixelsData]);
 
-  await writeFileAsync(`scaledX${scale}.bmp`, finalBuffer);
+  await writeFileAsync(`output/scaledX${scale}.bmp`, finalBuffer);
 
   return 'Изображение успешно масштабировано!';
 }
 
 getScale()
   .then((ratio) => {
-    transformImage('bmp-examples/example8bit.bmp', ratio)
+    transformImage('input/example8bit.bmp', ratio)
       .then((result) => {
         console.log(chalk.white.bold(result));
       })

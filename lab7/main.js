@@ -32,7 +32,7 @@ async function writeTextToBMP(bmpFileName, textFileName) {
     bmpData[i + textBitsSize.length + pixelsDataOffset] |= parseInt(textBits[i], 2);
   }
 
-  await writeFileAsync('stenography.bmp', bmpData);
+  await writeFileAsync('output/stenography.bmp', bmpData);
 
   return 'Текст успешно вписан в изображение!';
 }
@@ -62,16 +62,16 @@ async function readTextFromBMP(bmpFileName) {
 
   const extractedResult = textBuffer.toString('utf8');
 
-  await writeFileAsync('readText.txt', extractedResult);
+  await writeFileAsync('output/readText.txt', extractedResult);
 
   return 'Извлечённый из изображения текст успешно записан в файл!';
 }
 
-writeTextToBMP('bmp-examples/example24bit.bmp', 'bmp-examples/text.txt')
+writeTextToBMP('input/example24bit.bmp', 'input/text.txt')
   .then((writeResult) => {
     console.log(chalk.white.bold(writeResult));
 
-    readTextFromBMP('stenography.bmp')
+    readTextFromBMP('output/stenography.bmp')
       .then((readResult) => {
         console.log(chalk.white.bold(readResult));
       })

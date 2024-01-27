@@ -28,12 +28,12 @@ async function rotateBMP(fileName) {
     }
   }
 
-  await writeFileAsync('rotatedImage.bmp', outputBuffer);
+  await writeFileAsync('output/rotatedImage.bmp', outputBuffer);
 
   return 'Изображение успешно развернуто на 90 градусов!';
 }
 
-rotateBMP('bmp-examples/example24bit.bmp')
+rotateBMP('input/example24bit.bmp')
   .then((result) => {
     console.log(chalk.white.bold(result));
   })

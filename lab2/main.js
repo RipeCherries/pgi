@@ -36,12 +36,12 @@ async function addBorderToBMP(fileName) {
     }
   }
 
-  await writeFileAsync('randomBorder.bmp', bmpData);
+  await writeFileAsync('output/randomBorder.bmp', bmpData);
 
   return 'Рамка из случайных цветов успешно создана!';
 }
 
-addBorderToBMP('bmp-examples/example24bit.bmp')
+addBorderToBMP('input/example24bit.bmp')
   .then((result) => {
     console.log(chalk.white.bold(result));
   })

@@ -51,12 +51,12 @@ async function convertToGrayScale(fileName) {
 
   palette.copy(bmpData, paletteOffset);
 
-  await writeFileAsync('grayscale.bmp', bmpData);
+  await writeFileAsync('output/grayscale.bmp', bmpData);
 
   return 'Чёрно-белое изображение успешно сохранено!';
 }
 
-getBMPFileInformation('bmp-examples/example8bit.bmp')
+getBMPFileInformation('input/example8bit.bmp')
   .then((bmpInfo) => {
     console.log(`${chalk.green.underline('Сигнатура формата:')} ${bmpInfo.bfType.toString(16)}`);
     console.log(`${chalk.green.underline('Размер файла:')} ${bmpInfo.bfSize} байт`);
@@ -73,7 +73,7 @@ getBMPFileInformation('bmp-examples/example8bit.bmp')
     console.error(chalk.red.bold('Ошибка при получении информации о BMP файле:\n'), error);
   });
 
-convertToGrayScale('bmp-examples/example8bit.bmp')
+convertToGrayScale('input/example8bit.bmp')
   .then((result) => {
     console.log(chalk.white.bold(result));
   })
