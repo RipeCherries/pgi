@@ -13,9 +13,29 @@ function getRandomColor() {
   return [blue, green, red];
 }
 
-async function addBorderToBMP(fileName) {
-  const bmpData = await readFileAsync(fileName);
+async function addBorderTo8bitBMP(bmpData) {
 
+  const width = bmpData.readUInt32LE(18);
+  const height = bmpData.readUInt32LE(22);
+
+  const pixelsDataOffset = bmpData.readUInt32LE(10);
+  for (let i = 0; i < width; ++i) {
+    for (let j = 0; j < height; ++j) {
+      const isBorderPixel = i < 15 || i >= width - 15 || j < 15 || j >= height - 15;
+
+      if (isBorderPixel) {
+        const offset = pixelsDataOffset + (j * width + i);
+
+        const randomColor = Math.ceil(Math.random() * 255);
+        bmpData.writeUInt8(randomColor, offset);
+      }
+    }
+  }
+
+  await writeFileAsync('output/randomBorder8.bmp', bmpData);
+}
+
+async function addBorderTo24bitBMP(bmpData) {
   const pixelsDataOffset = bmpData.readUInt32LE(10);
 
   const width = bmpData.readUInt32LE(18);
@@ -36,7 +56,24 @@ async function addBorderToBMP(fileName) {
     }
   }
 
-  await writeFileAsync('output/randomBorder.bmp', bmpData);
+  await writeFileAsync('output/randomBorder24.bmp', bmpData);
+}
+
+async function addBorderToBMP(fileName) {
+  const bmpData = await readFileAsync(fileName);
+
+  const biBitCount= bmpData.readUInt16LE(28);
+
+  switch (biBitCount) {
+    case 8:
+      await addBorderTo8bitBMP(bmpData);
+      break;
+    case 24:
+      await addBorderTo24bitBMP(bmpData);
+      break;
+  }
+
+
 
   return 'Рамка из случайных цветов успешно создана!';
 }
