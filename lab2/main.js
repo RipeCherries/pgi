@@ -14,7 +14,6 @@ function getRandomColor() {
 }
 
 async function addBorderTo8bitBMP(bmpData) {
-
   const width = bmpData.readUInt32LE(18);
   const height = bmpData.readUInt32LE(22);
 
@@ -62,7 +61,7 @@ async function addBorderTo24bitBMP(bmpData) {
 async function addBorderToBMP(fileName) {
   const bmpData = await readFileAsync(fileName);
 
-  const biBitCount= bmpData.readUInt16LE(28);
+  const biBitCount = bmpData.readUInt16LE(28);
 
   switch (biBitCount) {
     case 8:
@@ -71,9 +70,9 @@ async function addBorderToBMP(fileName) {
     case 24:
       await addBorderTo24bitBMP(bmpData);
       break;
+    default:
+      throw new Error("Неподходящий BMP файл!")
   }
-
-
 
   return 'Рамка из случайных цветов успешно создана!';
 }
