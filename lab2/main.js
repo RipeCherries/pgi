@@ -71,7 +71,7 @@ async function addBorderToBMP(fileName) {
       await addBorderTo24bitBMP(bmpData);
       break;
     default:
-      throw new Error("Неподходящий BMP файл!")
+      throw new Error('Неподходящий BMP файл!');
   }
 
   return 'Рамка из случайных цветов успешно создана!';
