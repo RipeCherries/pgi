@@ -2,14 +2,17 @@
   "name": "pgi",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "Laboratory work and RGR on the subject of \"Representation of Graphic Information\"",
   "main": "index.js",
   "scripts": {
     "lab1": "node lab1/main.js",
     "lab2": "node lab2/main.js",
     "lab3": "node lab3/main.js",
-    "lab4": "node lab4/main.js",
-    "lab5": "node lab5/main.js"
+    "lab4": "open-cli lab4/index.html",
+    "lab5": "node lab5/main.js",
+    "lab6": "node lab6/main.js",
+    "lab7": "node lab7/main.js",
+    "lab8": "open-cli lab8/index.html"
   },
   "author": "Egoshin Alexey",
   "license": "ISC",
@@ -21,6 +24,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
+    "open-cli": "^8.0.0",
     "prettier": "^3.2.3"
   }
 }
