@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport'
+        content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <link rel='stylesheet' href='styles.css'>
+  <title>РГР</title>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='row'>
+    <div class='column'>
+      <h2>До:</h2>
+      <canvas id='beforePCXCanvas' width='512' height='512'></canvas>
+    </div>
+    <div class='column'>
+      <h2>После:</h2>
+      <canvas id='afterPCXCanvas' width='512' height='512'></canvas>
+    </div>
+  </div>
+  <input type='file' id='pcxFileInput' accept='.pcx'>
+</div>
+<script src='main.js'></script>
+<script src='../lib/pcx/pcx.js'></script>
+</body>
+</html>
