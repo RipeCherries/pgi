@@ -79,8 +79,6 @@ function convertTo256Colors(decodedData) {
   }
 
   let p = 0;
-  const newData = { ...decodedData };
-
   for (let i = 0; i < decodedData.pixelsData.length; i += 4) {
     const color = {
       red: decodedData.pixelsData[i],
