@@ -8,12 +8,16 @@ function getDifference(color1, color2) {
   return (color1.red - color2.red) ** 2 + (color1.green - color2.green) ** 2 + (color1.blue - color2.blue) ** 2;
 }
 
-function alikeColors(color1, color2) {
-  return (
-    (color1.red & 0xe0) === (color2.red & 0xe0) &&
-    (color1.green & 0xc0) === (color2.green & 0xc0) &&
-    (color1.blue & 0xe0) === (color2.blue & 0xe0)
+function getEuclideanDistance(color1, color2) {
+  return Math.sqrt(
+    (color1.red - color2.red)**2 +
+      (color1.green - color2.green)**2 +
+      (color1.blue - color2.blue)**2,
   );
+}
+
+function alikeColors(color1, color2, threshold) {
+  return getEuclideanDistance(color1, color2) <= threshold;
 }
 
 function convertTo256Colors(decodedData) {
@@ -30,9 +34,10 @@ function convertTo256Colors(decodedData) {
     };
 
     let foundAlike = false;
+    const similarityThreshold = 10;
 
     for (let j = 0; j < colorsNum; ++j) {
-      if (alikeColors(color, palette[j])) {
+      if (alikeColors(color, palette[j], similarityThreshold)) {
         foundAlike = true;
         break;
       }
@@ -43,11 +48,15 @@ function convertTo256Colors(decodedData) {
 
       for (let k = i + 4; k < decodedData.pixelsData.length; k += 4) {
         if (
-          alikeColors(color, {
-            red: decodedData.pixelsData[k],
-            green: decodedData.pixelsData[k + 1],
-            blue: decodedData.pixelsData[k + 2],
-          })
+          alikeColors(
+            color,
+            {
+              red: decodedData.pixelsData[k],
+              green: decodedData.pixelsData[k + 1],
+              blue: decodedData.pixelsData[k + 2],
+            },
+            similarityThreshold,
+          )
         ) {
           r++;
         }
@@ -77,6 +86,8 @@ function convertTo256Colors(decodedData) {
       }
     }
   }
+
+  console.log(palette);
 
   let p = 0;
   for (let i = 0; i < decodedData.pixelsData.length; i += 4) {
