@@ -96,13 +96,37 @@ async function readTextFromBMP(bmpFileName, percents) {
   return 'Извлечённый из изображения текст успешно записан в файл!';
 }
 
-writeTextToBMP('input/example24bit.bmp', 'input/text.txt', 50)
+async function compareFiles(originalFileName, extractedFileName) {
+  const originalData = await readFileAsync(originalFileName);
+  const extractedData = await readFileAsync(extractedFileName);
+
+  if (Math.abs(originalData.length - extractedData.length) <= 2) {
+    return 'Исходный файл и извлечённый файл идентичны.';
+  } 
+    return 'Исходный файл и извлечённый файл не совпадают.';
+  
+}
+
+const textFile = {
+  fileName: 'input/text50percents.txt',
+  percents: 50,
+};
+
+writeTextToBMP('input/example24bit.bmp', textFile.fileName, textFile.percents)
   .then((writeResult) => {
     console.log(chalk.white.bold(writeResult));
 
-    readTextFromBMP('output/stenography.bmp', 50)
+    readTextFromBMP('output/stenography.bmp', textFile.percents)
       .then((readResult) => {
         console.log(chalk.white.bold(readResult));
+
+        compareFiles(textFile.fileName, 'output/readText.txt')
+          .then((comparisonResult) => {
+            console.log(chalk.white.bold(comparisonResult));
+          })
+          .catch((comparisonError) => {
+            console.error(chalk.red.bold('Ошибка при сравнении файлов:\n'), comparisonError);
+          });
       })
       .catch((readError) => {
         console.error(chalk.red.bold('Ошибка при извлечении текста из изображения:\n'), readError);
